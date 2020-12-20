@@ -160,3 +160,14 @@ if __name__ == "__main__":
                 print("Wrong input!")
                 instructions()
                 continue
+        
+            # Sanity checks
+            if val[0] > n or val[0] < 1 or val[1] > n or val[1] < 1:
+                clear()
+                print("Wrong Input!")
+                instructions()
+                continue
+            
+            # Get row and column numbers
+            r = val[0]-1
+            col = val[1]-1
