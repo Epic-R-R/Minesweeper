@@ -106,7 +106,25 @@ if __name__ == "__main__":
     n = 8
     # Number of mines
     mines_no = 8
- 
+    
+    # Set the mines
+    set_mines()
+    
+    # Set the values
+    set_values()
+    
+    # Display the instructions
+    instructions()
+    
+    # Variable for maintaining Game Loop
+    over = False
+            
+    # The GAME LOOP 
+    while not over:
+        print_mines_layout()
+
+
+        
     # The actual values of the grid
     numbers = [[0 for y in range(n)] for x in range(n)] 
     # The apparent values of the grid
