@@ -111,6 +111,47 @@ def show_mines():
                 mine_values[r][col] = 'M'
 
 
+def neighbours(r, col):
+     
+    global mine_values
+    global numbers
+    global vis
+ 
+    # If the cell already not visited
+    if [r,col] not in vis:
+ 
+        # Mark the cell visited
+        vis.append([r,col])
+ 
+        # If the cell is zero-valued
+        if numbers[r][col] == 0:
+ 
+            # Display it to the user
+            mine_values[r][col] = numbers[r][col]
+ 
+            # Recursive calls for the neighbouring cells
+            if r > 0:
+                neighbours(r-1, col)
+            if r < n-1:
+                neighbours(r+1, col)
+            if col > 0:
+                neighbours(r, col-1)
+            if col < n-1:
+                neighbours(r, col+1)    
+            if r > 0 and col > 0:
+                neighbours(r-1, col-1)
+            if r > 0 and col < n-1:
+                neighbours(r-1, col+1)
+            if r < n-1 and col > 0:
+                neighbours(r+1, col-1)
+            if r < n-1 and col < n-1:
+                neighbours(r+1, col+1)  
+                 
+        # If the cell is not zero-valued            
+        if numbers[r][col] != 0:
+                mine_values[r][col] = numbers[r][col]
+
+
 if __name__ == "__main__":
  
     # Size of grid
