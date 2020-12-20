@@ -122,9 +122,11 @@ if __name__ == "__main__":
     # The GAME LOOP 
     while not over:
         print_mines_layout()
+        # Input from the user
+        inp = input("Enter row number followed by space and column number = ").split()
 
 
-        
+
     # The actual values of the grid
     numbers = [[0 for y in range(n)] for x in range(n)] 
     # The apparent values of the grid
