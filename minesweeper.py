@@ -171,3 +171,31 @@ if __name__ == "__main__":
             # Get row and column numbers
             r = val[0]-1
             col = val[1]-1
+
+            # If cell already been flagged
+            if [r, col] in flags:
+                clear()
+                print("Flag already set")
+                continue
+            
+            # If cell already been displayed
+            if mine_values[r][col] != ' ':
+                clear()
+                print("Value already known")
+                continue
+            
+            # Check the number for flags    
+            if len(flags) < mines_no:
+                clear()
+                print("Flag set")
+            
+                # Adding flag to the list
+                flags.append([r, col])
+                
+                # Set the flag for display
+                mine_values[r][col] = 'F'
+                continue
+            else:
+                clear()
+                print("Flags finished")
+                continue
