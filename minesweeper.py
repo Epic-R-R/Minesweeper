@@ -152,6 +152,29 @@ def neighbours(r, col):
                 mine_values[r][col] = numbers[r][col]
 
 
+# Function to check for completion of the game
+def check_over():
+    global mine_values
+    global n
+    global mines_no
+ 
+    # Count of all numbered values
+    count = 0
+ 
+    # Loop for checking each cell in the grid
+    for r in range(n):
+        for col in range(n):
+ 
+            # If cell not empty or flagged
+            if mine_values[r][col] != ' ' and mine_values[r][col] != 'F':
+                count = count + 1
+     
+    # Count comparison          
+    if count == n * n - mines_no:
+        return True
+    else:
+        return False
+        
 if __name__ == "__main__":
  
     # Size of grid
