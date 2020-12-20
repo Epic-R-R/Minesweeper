@@ -99,6 +99,17 @@ def set_values():
             if r < n-1 and col< n-1 and numbers[r+1][col+1]==-1:
                 numbers[r][col] = numbers[r][col] + 1
 
+# Show mines
+def show_mines():
+    global mine_values
+    global numbers
+    global n
+ 
+    for r in range(n):
+        for col in range(n):
+            if numbers[r][col] == -1:
+                mine_values[r][col] = 'M'
+
 
 if __name__ == "__main__":
  
