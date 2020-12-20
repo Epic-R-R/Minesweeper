@@ -199,3 +199,13 @@ if __name__ == "__main__":
                 clear()
                 print("Flags finished")
                 continue
+
+        # If landing on a mine --- GAME OVER    
+        if numbers[r][col] == -1:
+            mine_values[r][col] = 'M'
+            show_mines()
+            print_mines_layout()
+            print("Landed on a mine. GAME OVER!!!!!")
+            over = True
+            continue
+        
