@@ -107,6 +107,13 @@ if __name__ == "__main__":
     # Number of mines
     mines_no = 8
     
+    # The actual values of the grid
+    numbers = [[0 for y in range(n)] for x in range(n)] 
+    # The apparent values of the grid
+    mine_values = [[' ' for y in range(n)] for x in range(n)]
+    # The positions that have been flagged
+    flags = []
+    
     # Set the mines
     set_mines()
     
@@ -118,18 +125,21 @@ if __name__ == "__main__":
     
     # Variable for maintaining Game Loop
     over = False
-            
+    
     # The GAME LOOP 
     while not over:
         print_mines_layout()
         # Input from the user
         inp = input("Enter row number followed by space and column number = ").split()
 
-
-
-    # The actual values of the grid
-    numbers = [[0 for y in range(n)] for x in range(n)] 
-    # The apparent values of the grid
-    mine_values = [[' ' for y in range(n)] for x in range(n)]
-    # The positions that have been flagged
-    flags = []
+        # Standard Move
+        if len(inp) == 2:
+        
+            # Try block to handle errant input
+            try: 
+                val = list(map(int, inp))
+            except ValueError:
+                clear()
+                print("Wrong input!")
+                instructions()
+                continue
