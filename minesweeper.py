@@ -1,148 +1,152 @@
 import random
 import os
 import platform
- 
+
 # Minesweeper Layout
 def mines_layout():
- 
+
     global mine_values
     global n
- 
+
     print()
     print("\t\t\tMinesweeper\n")
- 
+
     st = "   "
     for i in range(n):
         st = st + "     " + str(i + 1)
-    print(st)   
- 
+    print(st)
+
     for r in range(n):
         st = "     "
         if r == 0:
             for col in range(n):
-                st = st + "______" 
+                st = st + "______"
             print(st)
- 
+
         st = "     "
         for col in range(n):
             st = st + "|     "
         print(st + "|")
-         
+
         st = "  " + str(r + 1) + "  "
         for col in range(n):
             st = st + "|  " + str(mine_values[r][col]) + "  "
-        print(st + "|") 
- 
+        print(st + "|")
+
         st = "     "
         for col in range(n):
             st = st + "|_____"
-        print(st + '|')
- 
+        print(st + "|")
+
     print()
-  
+
+
 # setting up Mines
 def mines_set():
- 
+
     global numbers
     global mines_no
     global n
- 
+
     # Track of number of mines already set up
     count = 0
     while count < mines_no:
- 
-        # Random number from all possible grid positions 
-        val = random.randint(0, n*n-1)
- 
+
+        # Random number from all possible grid positions
+        val = random.randint(0, n * n - 1)
+
         # Generating row and column from the number
         r = val // n
         col = val % n
- 
+
         # Place the mine, if it doesn't already have one
         if numbers[r][col] != -1:
             count = count + 1
             numbers[r][col] = -1
- 
+
+
 # setting up the other grid values
 def values_set():
- 
+
     global numbers
     global n
- 
+
     # Loop for counting each cell value
     for r in range(n):
         for col in range(n):
- 
+
             # Skip, if it contains a mine
             if numbers[r][col] == -1:
                 continue
- 
-            # Check up  
-            if r > 0 and numbers[r-1][col] == -1:
+
+            # Check up
+            if r > 0 and numbers[r - 1][col] == -1:
                 numbers[r][col] = numbers[r][col] + 1
-            # Check down    
-            if r < n-1  and numbers[r+1][col] == -1:
+            # Check down
+            if r < n - 1 and numbers[r + 1][col] == -1:
                 numbers[r][col] = numbers[r][col] + 1
             # Check left
-            if col > 0 and numbers[r][col-1] == -1:
+            if col > 0 and numbers[r][col - 1] == -1:
                 numbers[r][col] = numbers[r][col] + 1
             # Check right
-            if col < n-1 and numbers[r][col+1] == -1:
+            if col < n - 1 and numbers[r][col + 1] == -1:
                 numbers[r][col] = numbers[r][col] + 1
-            # Check top-left    
-            if r > 0 and col > 0 and numbers[r-1][col-1] == -1:
+            # Check top-left
+            if r > 0 and col > 0 and numbers[r - 1][col - 1] == -1:
                 numbers[r][col] = numbers[r][col] + 1
             # Check top-right
-            if r > 0 and col < n-1 and numbers[r-1][col+1] == -1:
+            if r > 0 and col < n - 1 and numbers[r - 1][col + 1] == -1:
                 numbers[r][col] = numbers[r][col] + 1
-            # Check below-left  
-            if r < n-1 and col > 0 and numbers[r+1][col-1] == -1:
+            # Check below-left
+            if r < n - 1 and col > 0 and numbers[r + 1][col - 1] == -1:
                 numbers[r][col] = numbers[r][col] + 1
             # Check below-right
-            if r < n-1 and col < n-1 and numbers[r+1][col+1] == -1:
+            if r < n - 1 and col < n - 1 and numbers[r + 1][col + 1] == -1:
                 numbers[r][col] = numbers[r][col] + 1
- 
-# display all zero-valued neighbours  
+
+
+# display all zero-valued neighbours
 def neighbours(r, col):
-     
+
     global mine_values
     global numbers
     global vis
- 
+
     # If the cell already not visited
-    if [r,col] not in vis:
- 
+    if [r, col] not in vis:
+
         # Mark the cell visited
-        vis.append([r,col])
- 
+        vis.append([r, col])
+
         # If the cell is zero-valued
         if numbers[r][col] == 0:
- 
+
             # Display it to the user
             mine_values[r][col] = numbers[r][col]
- 
+
             # Recursive calls for the neighbouring cells
             if r > 0:
-                neighbours(r-1, col)
-            if r < n-1:
-                neighbours(r+1, col)
+                neighbours(r - 1, col)
+            if r < n - 1:
+                neighbours(r + 1, col)
             if col > 0:
-                neighbours(r, col-1)
-            if col < n-1:
-                neighbours(r, col+1)    
+                neighbours(r, col - 1)
+            if col < n - 1:
+                neighbours(r, col + 1)
             if r > 0 and col > 0:
-                neighbours(r-1, col-1)
-            if r > 0 and col < n-1:
-                neighbours(r-1, col+1)
-            if r < n-1 and col > 0:
-                neighbours(r+1, col-1)
-            if r < n-1 and col < n-1:
-                neighbours(r+1, col+1)  
- 
-        # If the cell is not zero-valued            
+                neighbours(r - 1, col - 1)
+            if r > 0 and col < n - 1:
+                neighbours(r - 1, col + 1)
+            if r < n - 1 and col > 0:
+                neighbours(r + 1, col - 1)
+            if r < n - 1 and col < n - 1:
+                neighbours(r + 1, col + 1)
+
+        # If the cell is not zero-valued
         if numbers[r][col] != 0:
-                mine_values[r][col] = numbers[r][col]
- 
+            mine_values[r][col] = numbers[r][col]
+
+
 # clearing the terminal
 def screenclear():
     if platform.system() == "Linux":
@@ -150,101 +154,106 @@ def screenclear():
     else:
         os.system("cls")
 
+
 # display the instructions
 def instructions():
     print("Instructions:")
     print('. Enter row and column number to select a cell, Example "2 3"')
-    print('. In order to flag a mine, enter F after row and column numbers, Example "2 3 F')
- 
+    print(
+        '. In order to flag a mine, enter F after row and column numbers, Example "2 3 F'
+    )
+
+
 # check for completion of the game
 def check_over():
     global mine_values
     global n
     global mines_no
- 
+
     # Count of all numbered values
     count = 0
- 
+
     # Loop for checking each cell in the grid
     for r in range(n):
         for col in range(n):
- 
+
             # If cell not empty or flagged
-            if mine_values[r][col] != ' ' and mine_values[r][col] != 'F':
+            if mine_values[r][col] != " " and mine_values[r][col] != "F":
                 count = count + 1
-     
-    # Count comparison          
+
+    # Count comparison
     if count == n * n - mines_no:
         return True
     else:
         return False
- 
-# Display all the mine locations                    
+
+
+# Display all the mine locations
 def show_mines():
     global mine_values
     global numbers
     global n
- 
+
     for r in range(n):
         for col in range(n):
             if numbers[r][col] == -1:
-                mine_values[r][col] = 'M'
- 
- 
+                mine_values[r][col] = "M"
+
+
 if __name__ == "__main__":
- 
+
     # Size of grid
     n = 8
     # Number of mines
     mines_no = 8
- 
+
     # The actual values of the grid
-    numbers = [[0 for y in range(n)] for x in range(n)] 
+    numbers = [[0 for y in range(n)] for x in range(n)]
     # The apparent values of the grid
-    mine_values = [[' ' for y in range(n)] for x in range(n)]
+    mine_values = [[" " for y in range(n)] for x in range(n)]
     # The positions that have been flagged
     flags = []
- 
+
     # Set the mines
     mines_set()
- 
+
     # Set the values
     values_set()
- 
+
     # Display the instructions
     instructions()
- 
+
     # Variable for maintaining Game Loop
     over = False
-         
-    # The GAME LOOP 
+
+    # The GAME LOOP
     while not over:
         mines_layout()
- 
+
         # Input from the user
         inp = input("Enter row number followed by space and column number = ").split()
-         
+
         # Standard input
         if len(inp) == 2:
- 
+
             # Try block to handle errant input
-            try: 
+            try:
                 val = list(map(int, inp))
             except ValueError:
                 screenclear()
                 print("Wrong input!")
                 instructions()
                 continue
- 
+
         # Flag input
         elif len(inp) == 3:
-            if inp[2] != 'F' and inp[2] != 'f':
+            if inp[2] != "F" and inp[2] != "f":
                 screenclear()
                 print("Wrong Input!")
                 instructions()
                 continue
- 
-            # Try block to handle errant input  
+
+            # Try block to handle errant input
             try:
                 val = list(map(int, inp[:2]))
             except ValueError:
@@ -252,89 +261,88 @@ if __name__ == "__main__":
                 print("Wrong input!")
                 instructions()
                 continue
- 
-            # Sanity checks 
+
+            # Sanity checks
             if val[0] > n or val[0] < 1 or val[1] > n or val[1] < 1:
                 screenclear()
                 print("Wrong input!")
                 instructions()
                 continue
- 
+
             # Get row and column numbers
-            r = val[0]-1
-            col = val[1]-1 
- 
+            r = val[0] - 1
+            col = val[1] - 1
+
             # If cell already been flagged
             if [r, col] in flags:
                 screenclear()
                 print("Flag already set")
                 continue
- 
+
             # If cell already been displayed
-            if mine_values[r][col] != ' ':
+            if mine_values[r][col] != " ":
                 screenclear()
                 print("Value already known")
                 continue
- 
-            # Check the number for flags    
+
+            # Check the number for flags
             if len(flags) < mines_no:
                 screenclear()
                 print("Flag set")
- 
+
                 # Adding flag to the list
                 flags.append([r, col])
-                 
+
                 # Set the flag for display
-                mine_values[r][col] = 'F'
+                mine_values[r][col] = "F"
                 continue
             else:
                 screenclear()
                 print("Flags finished")
-                continue    
- 
-        else: 
+                continue
+
+        else:
             screenclear()
-            print("Wrong input!")   
+            print("Wrong input!")
             instructions()
             continue
-             
- 
+
         # Sanity checks
         if val[0] > n or val[0] < 1 or val[1] > n or val[1] < 1:
             screenclear()
             print("Wrong Input!")
             instructions()
             continue
-             
+
         # Get row and column number
-        r = val[0]-1
-        col = val[1]-1
- 
+        r = val[0] - 1
+        col = val[1] - 1
+
         # Unflag the cell if already flagged
         if [r, col] in flags:
             flags.remove([r, col])
- 
-        # If landing on a mine --- GAME OVER    
+
+        # If landing on a mine --- GAME OVER
         if numbers[r][col] == -1:
-            mine_values[r][col] = 'M'
+            mine_values[r][col] = "M"
             show_mines()
             mines_layout()
             print("Landed on a mine. GAME OVER!!!!!")
             over = True
             continue
- 
+
         # If landing on a cell with 0 mines in neighboring cells
         elif numbers[r][col] == 0:
             vis = []
-            mine_values[r][col] = '0'
+            mine_values[r][col] = "0"
             neighbours(r, col)
- 
-        # If selecting a cell with atleast 1 mine in neighboring cells  
-        else:   
+
+        # If selecting a cell with atleast 1 mine in neighboring cells
+        else:
             mine_values[r][col] = numbers[r][col]
- 
-        # Check for game completion 
-        if(check_over()):
+
+        # Check for game completion
+        if check_over():
             show_mines()
             mines_layout()
             print("Congratulations!\t You win")
