@@ -113,7 +113,7 @@ if __name__ == "__main__":
     mine_values = [[' ' for y in range(n)] for x in range(n)]
     # The positions that have been flagged
     flags = []
-    
+
     # Set the mines
     set_mines()
     
@@ -138,6 +138,23 @@ if __name__ == "__main__":
             # Try block to handle errant input
             try: 
                 val = list(map(int, inp))
+            except ValueError:
+                clear()
+                print("Wrong input!")
+                instructions()
+                continue
+        
+        # Flag Input
+        elif len(inp) == 3:
+            if inp[2] != 'F' and inp[2] != 'f':
+                clear()
+                print("Wrong Input!")
+                instructions()
+                continue
+        
+            # Try block to handle errant input  
+            try:
+                val = list(map(int, inp[:2]))
             except ValueError:
                 clear()
                 print("Wrong input!")
