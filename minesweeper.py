@@ -1,15 +1,15 @@
-# Importing packages
 import random
 import os
+import platform
  
-# Printing the Minesweeper Layout
-def print_mines_layout():
+# Minesweeper Layout
+def mines_layout():
  
     global mine_values
     global n
  
     print()
-    print("\t\t\tMINESWEEPER\n")
+    print("\t\t\tMinesweeper\n")
  
     st = "   "
     for i in range(n):
@@ -40,8 +40,8 @@ def print_mines_layout():
  
     print()
   
-# Function for setting up Mines
-def set_mines():
+# setting up Mines
+def mines_set():
  
     global numbers
     global mines_no
@@ -63,8 +63,8 @@ def set_mines():
             count = count + 1
             numbers[r][col] = -1
  
-# Function for setting up the other grid values
-def set_values():
+# setting up the other grid values
+def values_set():
  
     global numbers
     global n
@@ -102,7 +102,7 @@ def set_values():
             if r < n-1 and col < n-1 and numbers[r+1][col+1] == -1:
                 numbers[r][col] = numbers[r][col] + 1
  
-# Recursive function to display all zero-valued neighbours  
+# display all zero-valued neighbours  
 def neighbours(r, col):
      
     global mine_values
@@ -143,17 +143,20 @@ def neighbours(r, col):
         if numbers[r][col] != 0:
                 mine_values[r][col] = numbers[r][col]
  
-# Function for clearing the terminal
-def clear():
-    os.system("clear")      
- 
-# Function to display the instructions
+# clearing the terminal
+def screenclear():
+    if platform.system() == "Linux":
+        os.system("clear")
+    else:
+        os.system("cls")
+
+# display the instructions
 def instructions():
     print("Instructions:")
-    print("1. Enter row and column number to select a cell, Example \"2 3\"")
-    print("2. In order to flag a mine, enter F after row and column numbers, Example \"2 3 F\"")
+    print('. Enter row and column number to select a cell, Example "2 3"')
+    print('. In order to flag a mine, enter F after row and column numbers, Example "2 3 F')
  
-# Function to check for completion of the game
+# check for completion of the game
 def check_over():
     global mine_values
     global n
@@ -203,10 +206,10 @@ if __name__ == "__main__":
     flags = []
  
     # Set the mines
-    set_mines()
+    mines_set()
  
     # Set the values
-    set_values()
+    values_set()
  
     # Display the instructions
     instructions()
@@ -216,7 +219,7 @@ if __name__ == "__main__":
          
     # The GAME LOOP 
     while not over:
-        print_mines_layout()
+        mines_layout()
  
         # Input from the user
         inp = input("Enter row number followed by space and column number = ").split()
@@ -228,7 +231,7 @@ if __name__ == "__main__":
             try: 
                 val = list(map(int, inp))
             except ValueError:
-                clear()
+                screenclear()
                 print("Wrong input!")
                 instructions()
                 continue
@@ -236,7 +239,7 @@ if __name__ == "__main__":
         # Flag input
         elif len(inp) == 3:
             if inp[2] != 'F' and inp[2] != 'f':
-                clear()
+                screenclear()
                 print("Wrong Input!")
                 instructions()
                 continue
@@ -245,14 +248,14 @@ if __name__ == "__main__":
             try:
                 val = list(map(int, inp[:2]))
             except ValueError:
-                clear()
+                screenclear()
                 print("Wrong input!")
                 instructions()
                 continue
  
             # Sanity checks 
             if val[0] > n or val[0] < 1 or val[1] > n or val[1] < 1:
-                clear()
+                screenclear()
                 print("Wrong input!")
                 instructions()
                 continue
@@ -263,19 +266,19 @@ if __name__ == "__main__":
  
             # If cell already been flagged
             if [r, col] in flags:
-                clear()
+                screenclear()
                 print("Flag already set")
                 continue
  
             # If cell already been displayed
             if mine_values[r][col] != ' ':
-                clear()
+                screenclear()
                 print("Value already known")
                 continue
  
             # Check the number for flags    
             if len(flags) < mines_no:
-                clear()
+                screenclear()
                 print("Flag set")
  
                 # Adding flag to the list
@@ -285,12 +288,12 @@ if __name__ == "__main__":
                 mine_values[r][col] = 'F'
                 continue
             else:
-                clear()
+                screenclear()
                 print("Flags finished")
                 continue    
  
         else: 
-            clear()
+            screenclear()
             print("Wrong input!")   
             instructions()
             continue
@@ -298,7 +301,7 @@ if __name__ == "__main__":
  
         # Sanity checks
         if val[0] > n or val[0] < 1 or val[1] > n or val[1] < 1:
-            clear()
+            screenclear()
             print("Wrong Input!")
             instructions()
             continue
@@ -315,7 +318,7 @@ if __name__ == "__main__":
         if numbers[r][col] == -1:
             mine_values[r][col] = 'M'
             show_mines()
-            print_mines_layout()
+            mines_layout()
             print("Landed on a mine. GAME OVER!!!!!")
             over = True
             continue
@@ -333,8 +336,8 @@ if __name__ == "__main__":
         # Check for game completion 
         if(check_over()):
             show_mines()
-            print_mines_layout()
-            print("Congratulations!!! YOU WIN")
+            mines_layout()
+            print("Congratulations!\t You win")
             over = True
             continue
-        clear()
+        screenclear()
