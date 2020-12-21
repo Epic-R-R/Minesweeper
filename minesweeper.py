@@ -201,12 +201,10 @@ def show_mines():
 
 
 if __name__ == "__main__":
-
-    # Size of grid
+    # size of grid
     n = 8
-    # Number of mines
+    # number of mines
     mines_no = 8
-
     # The actual values of the grid
     numbers = [[0 for y in range(n)] for x in range(n)]
     # The apparent values of the grid
@@ -327,7 +325,7 @@ if __name__ == "__main__":
             mine_values[r][col] = "M"
             show_mines()
             mines_layout()
-            print("Landed on a mine. GAME OVER!!!!!")
+            print("Landed on a mine. GAME OVER!!")
             over = True
             continue
 
